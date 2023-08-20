@@ -10,6 +10,7 @@ public class DisplayPanel extends JPanel
     private final int HEIGHT = 1000;
 
     private Shape shape;
+    private double observerDistance;
 
     public DisplayPanel()
     {
@@ -18,13 +19,13 @@ public class DisplayPanel extends JPanel
     }
     
     @Override
-    public void paint(Graphics g) 
+    public void paint(Graphics graphicsParameter) 
     {
-        super.paint(g);
+        super.paint(graphicsParameter);
 
         if(this.shape != null)
         {
-            this.shape.draw(g, 1000, this.WIDTH, this.HEIGHT);
+            this.shape.draw(graphicsParameter, this.observerDistance, this.WIDTH, this.HEIGHT);
         }
     }
 
@@ -34,21 +35,21 @@ public class DisplayPanel extends JPanel
         this.repaint();
     }
 
-    public void moveShape(double xParameter, double yParameter, double zParameter)
+    public void moveShape(Vector moveVectorParameter)
     {
-        this.shape.move(xParameter, yParameter, zParameter);
+        this.shape.move(moveVectorParameter);
         this.repaint();
     }
 
-    public void rotateShape(double xParameter, double yParameter, double zParameter)
+    public void rotateShape(Vector rotateVectorParameter)
     {
-        this.shape.rotate(xParameter, yParameter, zParameter);
+        this.shape.rotate(rotateVectorParameter);
         this.repaint();
     }
 
-    public void scaleShape(double xParameter, double yParameter, double zParameter)
+    public void scaleShape(Vector scaleVectorParameter)
     {
-        this.shape.scale(xParameter, yParameter, zParameter);
+        this.shape.scale(scaleVectorParameter);
         this.repaint();
     }
 
@@ -56,5 +57,16 @@ public class DisplayPanel extends JPanel
     {
         this.shape.reset();
         this.repaint();
+    }
+
+    public void changeObserverDistance(double observerDistanceParameter)
+    {
+        this.observerDistance = observerDistanceParameter;
+        this.repaint();
+    }
+
+    public Matrix getMatrix()
+    {
+        return this.shape.getMatrix();
     }
 }
