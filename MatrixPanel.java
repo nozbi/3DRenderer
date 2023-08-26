@@ -1,6 +1,4 @@
-import java.awt.Color;
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -10,8 +8,6 @@ public class MatrixPanel extends JPanel
     public MatrixPanel()
     {
         super();
-
-        this.setBackground(Color.YELLOW);
     }
 
     public void setMatrix(Matrix matrixParameter)

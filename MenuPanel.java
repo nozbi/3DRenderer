@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -8,7 +9,7 @@ import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel
 {
-    private final int WIDTH = 500;
+    private final int WIDTH = 333;
     private final int HEIGHT = 1000;
     private final double DEFAULT_OBSERVER_DISTANCE = 1000;
     private final Vector DEFAULT_MOVE_VECTOR = new Vector(0, 0, 0);
@@ -27,8 +28,11 @@ public class MenuPanel extends JPanel
         this.setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
         this.setLayout(new GridLayout(0, 1));
 
+        JPanel settingsPanel = new JPanel(new GridLayout(0, 1));
+        this.add(settingsPanel);
+
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 0));
-        this.add(buttonsPanel);
+        settingsPanel.add(buttonsPanel);
 
         JButton loadShapeButton = new JButton("Load Shape");
         loadShapeButton.addActionListener(actionEvent -> {this.onLoadShapeButtonClicked();});
@@ -39,75 +43,95 @@ public class MenuPanel extends JPanel
         buttonsPanel.add(resetShapeButton);
 
         JPanel observerDistancePanel = new JPanel(new GridLayout(1, 0));
-        this.add(observerDistancePanel);
+        settingsPanel.add(observerDistancePanel);
 
         JLabel observerDistanceLabel = new JLabel("Distance:");
         observerDistancePanel.add(observerDistanceLabel);
 
         ValueInputField observerDistanceValueInputField = new ValueInputField(this.DEFAULT_OBSERVER_DISTANCE);
-        observerDistanceValueInputField.addActionListener(actionEvent -> {this.onObserverDistanceValueInputFieldChanged(observerDistanceValueInputField);;});
+        observerDistanceValueInputField.addActionListener(actionEvent -> {this.onObserverDistanceValueInputFieldChanged(observerDistanceValueInputField);});
         observerDistancePanel.add(observerDistanceValueInputField);
 
+        JPanel projectionModePanel = new JPanel(new GridLayout(1, 0));
+        settingsPanel.add(projectionModePanel);
+
+        JLabel projectionModeLabel = new JLabel("Projection:");
+        projectionModePanel.add(projectionModeLabel);
+
+        JComboBox<ProjectionMode> projectionModeComboBox = new JComboBox<ProjectionMode>(ProjectionMode.values());
+        projectionModeComboBox.addActionListener(actionEvent -> {this.onProjectionModeComboBoxChanged(projectionModeComboBox);});
+        projectionModePanel.add(projectionModeComboBox);
+
+        JPanel viewModePanel = new JPanel(new GridLayout(1, 0));
+        settingsPanel.add(viewModePanel);
+
+        JLabel viewModeLabel = new JLabel("View:");
+        viewModePanel.add(viewModeLabel);
+
+        JComboBox<ViewMode> viewModeComboBox = new JComboBox<ViewMode>(ViewMode.values());
+        viewModeComboBox.addActionListener(actionEvent -> {this.onViewModeComboBoxChanged(viewModeComboBox);});
+        viewModePanel.add(viewModeComboBox);
+
+        JPanel transformPanel = new JPanel(new GridLayout(0, 1));
+        this.add(transformPanel);
+
         VectorInputPanel moveShapeVectorInputPanel = new VectorInputPanel(this.DEFAULT_MOVE_VECTOR);
-        this.add(moveShapeVectorInputPanel);
+        transformPanel.add(moveShapeVectorInputPanel);
 
         JButton moveShapeButton = new JButton("Move Shape");
         moveShapeButton.addActionListener(actionEvent -> {this.onMoveShapeButtonClicked(moveShapeVectorInputPanel);});
-        this.add(moveShapeButton);
+        transformPanel.add(moveShapeButton);
 
         VectorInputPanel rotateShapeVectorInputPanel = new VectorInputPanel(this.DEFAULT_ROTATE_VECTOR);
-        this.add(rotateShapeVectorInputPanel);
+        transformPanel.add(rotateShapeVectorInputPanel);
 
         JButton rotateShapeButton = new JButton("Rotate Shape");
         rotateShapeButton.addActionListener(actionEvent -> {this.onRotateShapeButtonClicked(rotateShapeVectorInputPanel);});
-        this.add(rotateShapeButton);
+        transformPanel.add(rotateShapeButton);
 
         VectorInputPanel scaleShapeVectorInputPanel = new VectorInputPanel(this.DEFAULT_SCALE_VECTOR);
-        this.add(scaleShapeVectorInputPanel);
+        transformPanel.add(scaleShapeVectorInputPanel);
 
         JButton scaleShapeButton = new JButton("Scale Shape");
         scaleShapeButton.addActionListener(actionEvent -> {this.onScaleShapeButtonClicked(scaleShapeVectorInputPanel);});
-        this.add(scaleShapeButton);
+        transformPanel.add(scaleShapeButton);
 
         this.matrixPanel = new MatrixPanel();
         this.add(this.matrixPanel);
 
-        this.displayPanel.changeObserverDistance(this.DEFAULT_OBSERVER_DISTANCE);
+        //this.displayPanel.changeObserverDistance(this.DEFAULT_OBSERVER_DISTANCE);
+        this.onObserverDistanceValueInputFieldChanged(observerDistanceValueInputField);
+        this.onProjectionModeComboBoxChanged(projectionModeComboBox);
+        this.onViewModeComboBoxChanged(viewModeComboBox);
     }
 
     private void onLoadShapeButtonClicked()
     {
         //
-        Vertex3D[] vertices3D = 
+        Vertex[] vertices = 
         {
-           new Vertex3D(-100, 100, 100),
-           new Vertex3D(100, 100, 100),
-           new Vertex3D(100, -100, 100),
-           new Vertex3D(-100, -100, 100),
-           new Vertex3D(-100, 100, -100),
-           new Vertex3D(100, 100, -100),
-           new Vertex3D(100, -100, -100),
-           new Vertex3D(-100, -100, -100)
+           new Vertex(-100, 100, 100),
+           new Vertex(100, 100, 100),
+           new Vertex(100, -100, 100),
+           new Vertex(-100, -100, 100),
+           new Vertex(-100, 100, -100),
+           new Vertex(100, 100, -100),
+           new Vertex(100, -100, -100),
+           new Vertex(-100, -100, -100)
         };
 
-        Edge[] edges = 
+        Wall[] walls =
         {
-            new Edge(0, 1),
-            new Edge(1, 2),
-            new Edge(2, 3),
-            new Edge(3, 0),
-            new Edge(4, 5),
-            new Edge(5, 6),
-            new Edge(6, 7),
-            new Edge(7, 4),
-            new Edge(0, 4),
-            new Edge(1, 5),
-            new Edge(2, 6),
-            new Edge(3, 7)
+            new Wall(new int[]{0, 1, 2, 3}),
+            new Wall(new int[]{4, 5, 6, 7}),
+            new Wall(new int[]{0, 3, 7, 4}),
+            new Wall(new int[]{1, 2, 6, 5}),
+            new Wall(new int[]{2, 3, 7, 6}),
+            new Wall(new int[]{0, 4, 5, 1})
         };
         //
 
-        this.displayPanel.loadShape(vertices3D, edges);
+        this.displayPanel.loadShape(new Shape(vertices, walls));
         this.updateMatrixPanel();
     }
 
@@ -144,4 +168,16 @@ public class MenuPanel extends JPanel
     {
         this.displayPanel.changeObserverDistance(observerDistanceValueInputFieldParameter.getValue());
     }
-}
+
+    private void onProjectionModeComboBoxChanged(JComboBox<ProjectionMode> projectionModeComboBoxParameter)
+    {
+        ProjectionMode projectionMode = (ProjectionMode)projectionModeComboBoxParameter.getSelectedItem();
+        this.displayPanel.changeProjectionMode(projectionMode);
+    }
+
+    private void onViewModeComboBoxChanged(JComboBox<ViewMode> viewModeComboBoxParameter)
+    {
+        ViewMode viewMode = (ViewMode)viewModeComboBoxParameter.getSelectedItem();
+        this.displayPanel.changeViewMode(viewMode);
+    }
+}    

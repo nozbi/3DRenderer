@@ -11,11 +11,13 @@ public class DisplayPanel extends JPanel
 
     private Shape shape;
     private double observerDistance;
+    private ProjectionMode projectionMode;
+    private ViewMode viewMode;
 
     public DisplayPanel()
     {
         this.setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT));
-        this.setBackground(Color.PINK);
+        this.setBackground(Color.WHITE);
     }
     
     @Override
@@ -25,13 +27,13 @@ public class DisplayPanel extends JPanel
 
         if(this.shape != null)
         {
-            this.shape.draw(graphicsParameter, this.observerDistance, this.WIDTH, this.HEIGHT);
+            this.shape.draw(graphicsParameter, this.WIDTH, this.HEIGHT, this.observerDistance, this.projectionMode, this.viewMode);
         }
     }
 
-    public void loadShape(Vertex3D[] vertices3DParameter, Edge[] edgesParameter)
+    public void loadShape(Shape shapeParameter)
     {
-        this.shape = new Shape(vertices3DParameter, edgesParameter);
+        this.shape = shapeParameter;
         this.repaint();
     }
 
@@ -68,5 +70,17 @@ public class DisplayPanel extends JPanel
     public Matrix getMatrix()
     {
         return this.shape.getMatrix();
+    }
+
+    public void changeProjectionMode(ProjectionMode projectionModeParameter)
+    {
+        this.projectionMode = projectionModeParameter;
+         this.repaint();
+    }
+
+    public void changeViewMode(ViewMode viewModeParameter)
+    {
+        this.viewMode = viewModeParameter;
+        this.repaint();
     }
 }

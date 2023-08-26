@@ -86,7 +86,7 @@ public class Matrix
         this.matrix = MatrixCalculator.multiplyMatrices(this.getMatrix(), matrixParameter.getMatrix());
     }
 
-    public Vertex3D calculateNewVertex(Vertex3D vertexParameter)
+    public Vertex calculateNewVertex(Vertex vertexParameter)
     {
         double[][] oldVertexMatrix = new double[1][4];
         oldVertexMatrix[0][0] = vertexParameter.getX();
@@ -94,6 +94,6 @@ public class Matrix
         oldVertexMatrix[0][2] = vertexParameter.getZ();
         oldVertexMatrix[0][3] = 1;
         double[][] newVertexMatrix = MatrixCalculator.multiplyMatrices(oldVertexMatrix, this.matrix);
-        return new Vertex3D(newVertexMatrix[0][0], newVertexMatrix[0][1], newVertexMatrix[0][2]);
+        return new Vertex(newVertexMatrix[0][0], newVertexMatrix[0][1], newVertexMatrix[0][2]);
     }
 }
