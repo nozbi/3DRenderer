@@ -39,26 +39,38 @@ public class DisplayPanel extends JPanel
 
     public void moveShape(Vector moveVectorParameter)
     {
-        this.shape.move(moveVectorParameter);
-        this.repaint();
+        if(this.shape != null)
+        {
+            this.shape.move(moveVectorParameter);
+            this.repaint();
+        }
     }
 
     public void rotateShape(Vector rotateVectorParameter)
     {
-        this.shape.rotate(rotateVectorParameter);
-        this.repaint();
+        if(this.shape != null)
+        {
+            this.shape.rotate(rotateVectorParameter);
+            this.repaint();
+        }
     }
 
     public void scaleShape(Vector scaleVectorParameter)
     {
-        this.shape.scale(scaleVectorParameter);
-        this.repaint();
+        if(this.shape != null)
+        {
+            this.shape.scale(scaleVectorParameter);
+            this.repaint();
+        }
     }
 
     public void resetShape()
     {
-        this.shape.reset();
-        this.repaint();
+        if(this.shape != null)
+        {
+            this.shape.reset();
+            this.repaint();
+        }
     }
 
     public void changeObserverDistance(double observerDistanceParameter)
@@ -69,7 +81,14 @@ public class DisplayPanel extends JPanel
 
     public Matrix getMatrix()
     {
-        return this.shape.getMatrix();
+        if(this.shape != null)
+        {
+            return this.shape.getMatrix();
+        }
+        else
+        {
+            return new Matrix();
+        }
     }
 
     public void changeProjectionMode(ProjectionMode projectionModeParameter)
