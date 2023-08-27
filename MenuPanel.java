@@ -3,6 +3,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -107,32 +108,18 @@ public class MenuPanel extends JPanel
 
     private void onLoadShapeButtonClicked()
     {
-        //
-        Vertex[] vertices = 
+        ShapeFileReader shapeFileReader = new ShapeFileReader(this);
+        if(shapeFileReader.isFileGood())
         {
-           new Vertex(-100, 100, 100),
-           new Vertex(100, 100, 100),
-           new Vertex(100, -100, 100),
-           new Vertex(-100, -100, 100),
-           new Vertex(-100, 100, -100),
-           new Vertex(100, 100, -100),
-           new Vertex(100, -100, -100),
-           new Vertex(-100, -100, -100)
-        };
-
-        Wall[] walls =
+            Vertex[] vertices = shapeFileReader.getVertices();
+            Wall[] walls =  shapeFileReader.getWalls();
+            this.displayPanel.loadShape(new Shape(vertices, walls));
+            this.updateMatrixPanel();
+        }
+        else
         {
-            new Wall(new int[]{0, 1, 2, 3}),
-            new Wall(new int[]{4, 5, 6, 7}),
-            new Wall(new int[]{0, 3, 7, 4}),
-            new Wall(new int[]{1, 2, 6, 5}),
-            new Wall(new int[]{2, 3, 7, 6}),
-            new Wall(new int[]{0, 4, 5, 1})
-        };
-        //
-
-        this.displayPanel.loadShape(new Shape(vertices, walls));
-        this.updateMatrixPanel();
+            JOptionPane.showMessageDialog(this, "INCORRECT FILE FORMAT");
+        }
     }
 
     private void onMoveShapeButtonClicked(VectorInputPanel moveVectorInputPanelParameter)

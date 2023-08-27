@@ -13,7 +13,16 @@ public class WallsSorter
                     temp = wallsParameter[j-1];  
                     wallsParameter[j-1] = wallsParameter[j];  
                     wallsParameter[j] = temp;  
-                }          
+                } 
+                else if(wallsParameter[j-1].getZOrder(verticesParameter) == wallsParameter[j].getZOrder(verticesParameter))   
+                {
+                    if(wallsParameter[j-1].getXYOrder(verticesParameter) < wallsParameter[j].getXYOrder(verticesParameter))   
+                    {
+                        temp = wallsParameter[j-1];  
+                        wallsParameter[j-1] = wallsParameter[j];  
+                        wallsParameter[j] = temp;  
+                    }     
+                }     
             } 
         } 
 
