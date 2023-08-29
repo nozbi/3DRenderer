@@ -2,7 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.util.Arrays;
 
 
 public class Wall 
@@ -46,47 +45,21 @@ public class Wall
         }
     }
 
-    public double getZOrder(Vertex[] verticesParameter)
+    public double getDistance(Vertex[] verticesParameter, double observerDistanceParameter)
     {
-        double[] verticesZOrders = new double[this.indexesOfVertices.length];
-        for(int i = 0; i < verticesZOrders.length; i++)
-        {
-            verticesZOrders[i] = verticesParameter[this.indexesOfVertices[i]].getZ();
-        }
-
-        double wallZOrder = ArrayCalculator.calculateAverageValue(verticesZOrders);
-        return wallZOrder;
-    }
-
-    public double getXYOrder(Vertex[] verticesParameter)
-    {
-        double[] xArray = new double[this.indexesOfVertices.length];
+        double sum = 0;
         for(int i = 0; i < this.indexesOfVertices.length; i++)
         {
-            xArray[i] = verticesParameter[this.indexesOfVertices[i]].getX();
-        }
-        Arrays.sort(xArray);
-        double minX = xArray[0];
-        double maxX = xArray[xArray.length - 1];
-        double midX = Math.abs((minX + maxX) / 2);
+            double x = verticesParameter[this.indexesOfVertices[i]].getX();
+            double y = verticesParameter[this.indexesOfVertices[i]].getY();
+            double z = verticesParameter[this.indexesOfVertices[i]].getZ();
 
-        double[] yArray = new double[this.indexesOfVertices.length];
-        for(int i = 0; i < this.indexesOfVertices.length; i++)
-        {
-            yArray[i] = verticesParameter[this.indexesOfVertices[i]].getY();
-        }
-        Arrays.sort(yArray);
-        double minY = yArray[0];
-        double maxY = yArray[yArray.length - 1];
-        double midY = Math.abs((minY + maxY) / 2);
+            Vector startVector = new Vector(0, 0, -observerDistanceParameter);
+            Vector endVector = new Vector(x, y, z);
 
-        if(midX < midY)
-        {
-            return midX;
+            sum += DistanceCalculator.calculate(startVector, endVector);
         }
-        else
-        {
-            return midY;
-        }
+
+        return sum / this.indexesOfVertices.length;
     }
 }

@@ -1,6 +1,6 @@
 public class WallsSorter 
 {
-    public static Wall[] sort(Wall[] wallsParameter, Vertex[] verticesParameter)
+    public static Wall[] sort(Wall[] wallsParameter, Vertex[] verticesParameter, double observerDistanceParameter)
     {
         int n = wallsParameter.length;  
         Wall temp = null;  
@@ -8,21 +8,12 @@ public class WallsSorter
         {  
             for(int j=1; j < (n-i); j++)
             {  
-                if(wallsParameter[j-1].getZOrder(verticesParameter) < wallsParameter[j].getZOrder(verticesParameter))
+                if(wallsParameter[j-1].getDistance(verticesParameter, observerDistanceParameter) < wallsParameter[j].getDistance(verticesParameter, observerDistanceParameter))
                 {   
                     temp = wallsParameter[j-1];  
                     wallsParameter[j-1] = wallsParameter[j];  
                     wallsParameter[j] = temp;  
                 } 
-                else if(wallsParameter[j-1].getZOrder(verticesParameter) == wallsParameter[j].getZOrder(verticesParameter))   
-                {
-                    if(wallsParameter[j-1].getXYOrder(verticesParameter) < wallsParameter[j].getXYOrder(verticesParameter))   
-                    {
-                        temp = wallsParameter[j-1];  
-                        wallsParameter[j-1] = wallsParameter[j];  
-                        wallsParameter[j] = temp;  
-                    }     
-                }     
             } 
         } 
 

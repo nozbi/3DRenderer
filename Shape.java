@@ -52,7 +52,7 @@ public class Shape
                 break;
         }
 
-        this.walls = WallsSorter.sort(this.walls, this.vertices);
+        this.walls = WallsSorter.sort(this.walls, this.vertices, observerDistanceParameter);
         for(int i = 0; i < this.walls.length; i++)
         {
             this.walls[i].draw(graphicsParameter, points2D, viewModeParameter);
