@@ -22,9 +22,9 @@ public class ShapeFileReader
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
         fileChooser.setFileFilter(filter);
         File selectedFile = null;
-        fileChooser.showOpenDialog(panelParameter);
+        int result = fileChooser.showOpenDialog(panelParameter);
         selectedFile = fileChooser.getSelectedFile();
-        if (selectedFile != null) 
+        if ((selectedFile != null) && (result == JFileChooser.APPROVE_OPTION))
         {
             try
             {

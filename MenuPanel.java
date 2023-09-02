@@ -100,10 +100,11 @@ public class MenuPanel extends JPanel
         this.matrixPanel = new MatrixPanel();
         this.add(this.matrixPanel);
 
-        //this.displayPanel.changeObserverDistance(this.DEFAULT_OBSERVER_DISTANCE);
+        this.displayPanel.changeObserverDistance(this.DEFAULT_OBSERVER_DISTANCE);
         this.onObserverDistanceValueInputFieldChanged(observerDistanceValueInputField);
         this.onProjectionModeComboBoxChanged(projectionModeComboBox);
         this.onViewModeComboBoxChanged(viewModeComboBox);
+        this.updateMatrixPanel();
     }
 
     private void onLoadShapeButtonClicked()
